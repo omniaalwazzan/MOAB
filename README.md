@@ -3,7 +3,7 @@ Fusion models implemented in our paper ``MOAB: Multi-Modal Outer Arithmetic Bloc
 
 
 <p align="center">
-  <img width="600" height="600" src="https://github.com/omniaalwazzan/MOAB_ISBI2023/blob/main/MOAB_fusion.png">
+  <img width="800" height="200" src="https://github.com/omniaalwazzan/MOAB_ISBI2023/blob/main/MOAB_fusion.png">
 </p>
 
 

@@ -13,7 +13,7 @@ All provided fusion models have been evaluted on the public dataset provided by,
 
 This reposotory contains all implemneted fusion methods that can be transfered to any domain.
 
- Markup : * Available fusion models
+ * Available fusion models
               * MOAB fusion model
               * Outer Addition fusion model
               * Concatination fusion model  

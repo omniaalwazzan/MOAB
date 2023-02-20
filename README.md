@@ -9,4 +9,16 @@ Fusion models implemented in our paper 'MOAB: Multi-Modal Outer Arithmetic Block
 ### The paper has been accepted by The IEEE International Symposium on Biomedical Imaging (ISBI) and available at: [This link](https://www.eecs.qmul.ac.uk/~gslabaugh/publications/AlwazzanISBI2023.pdf).
 
 
+All provided fusion models have been evaluted on the public dataset provided by, . We follwoed an identical 15-fold cross valdiation schem that is highligted in our work
+
+This reposotory contains all implemneted fusion methods that can be transfered to any domain.
+
+ Markup : * Available fusion models
+              * MOAB fusion model
+              * Outer Addition fusion model
+              * Concatination fusion model  
+              * Dual branch fusion model
+              * Standard Addition fusion*, please refer to the paper to get the astrik meaning
+
+
 

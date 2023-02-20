@@ -17,7 +17,7 @@ This repository provides all functional fusion methods that can be applied to an
     * Outer Addition fusion model
     * Concatination fusion model  
     * Dual branch fusion model
-    * Standard Addition fusion*. (please refer to the paper to get the astrik meaning)
+    * Standard Addition fusion* model. (please refer to the paper to get the astrik meaning)
 
 To be updated 
 

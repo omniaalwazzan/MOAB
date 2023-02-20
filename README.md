@@ -6,6 +6,9 @@ Fusion models implemented in our paper 'MOAB: Multi-Modal Outer Arithmetic Block
   <img width="700" height="400" src="https://github.com/omniaalwazzan/MOAB_ISBI2023/blob/main/MOAB_fusion.png">
 </p>
 
+The paper has been accepted by The IEEE International Symposium on Biomedical Imaging (ISBI) and available at:
+
+[This link](https://www.eecs.qmul.ac.uk/~gslabaugh/publications/AlwazzanISBI2023.pdf).
 
 
 

@@ -14,7 +14,7 @@ All provided fusion models have been evaluted on the public dataset provided by,
 This reposotory contains all implemneted fusion methods that can be transfered to any domain.
 
  * Available fusion models
-              * MOAB fusion model
+    * MOAB fusion model
               * Outer Addition fusion model
               * Concatination fusion model  
               * Dual branch fusion model

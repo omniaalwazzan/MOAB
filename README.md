@@ -1,4 +1,5 @@
-# MOAB_ISBI2023
+# MOAB: Multi-Modal Outer Arithmetic Block for Fusion of Histopathological Images and Genetic Data for Brain Tumor Grading
+
 Fusion models implemented in our paper 'MOAB: Multi-Modal Outer Arithmetic Block for Fusion of Histopathological Images and Genetic Data for Brain Tumor Grading'. Omnia Alwazzan, Abbas Khan, Ioannis Patras, Gregory Slabaugh, ISBI 2023
 
 
@@ -19,5 +20,5 @@ This repository provides all functional fusion methods that can be applied to an
     * Dual branch fusion model
     * Standard Addition fusion* model. (please refer to the paper to get the astrik meaning)
 
-To be updated 
+To be updated..
 

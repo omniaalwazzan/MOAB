@@ -51,7 +51,6 @@ class MLP_Genes(nn.Module):
         x = self.layer_2(x)
         x = self.dropout(x) 
         x = self.layer_3(x)
-        x = self.dropout(x)
         return x
 
 

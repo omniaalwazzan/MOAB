@@ -251,12 +251,16 @@ class MOAB(nn.Module):
         self.conv_stack= conv_(4,1)
     
     def forward(self, x1,x3):
-
+        
+        #The shape of the image (x1) in this case has already been flattened by the context pre-trained network. 
         x1 = self.model_image(x1)
         
         x3 = self.model_gens(x3)
-        
+
+        # This is done to flatten the feature map from the MLP layer.
         x3 = x3.view(x3.size(0), -1)
+
+        # The objective of adding an extra dim to each branch (for example, torch.unsqueeze(x_sub, 1)) is to assist us in combining along the channel dim, so the shape of x_sub would be (bs, channel,33,33) 
                
         ## outer addition branch (appending 0)
         x_add = append_0(x1,x3)
@@ -277,7 +281,7 @@ class MOAB(nn.Module):
         x_div = torch.unsqueeze(x_div, 1)
         
         ## combine 4 branches on the channel dim
-        x = torch.concat((x_add,x_sub,x_pro,x_div),dim=1)
+        x = torch.cat((x_add,x_sub,x_pro,x_div),dim=1)
         #print('shape afr cat', x.shape)
         
         ## use a conv (1x1) 

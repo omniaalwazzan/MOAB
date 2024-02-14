@@ -224,11 +224,9 @@ def append_1_d(x1,x3):
     
     x3 = torch.cat((b.expand((x3.shape[0],1)),x3),dim=1)
     
-    x1_ = torch.full_like(x1, fill_value=float(1.2e-20))
+    x1_ = torch.full_like(x1, fill_value=float(1.2e-20))  #this to avoid division by zeor, in this case x1 is the denominator 
     x1 = torch.add(x1, x1_)
     
-    #print('this is x1 and this is the shape of x1',x3.shape)
-
     x_p = x3.view(x3.shape[0], x3.shape[1], 1)/ x1.view(x1.shape[0], 1, x1.shape[1])
     x_p = torch.sigmoid(x_p)
     #print('the shape of xp after outer pro bfr flatten',x_p.shape)

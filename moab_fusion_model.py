@@ -1,5 +1,4 @@
 
-#import timm 
 import torch
 import torch.nn as nn
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -14,11 +13,7 @@ class conv_(nn.Module):
         super().__init__()
         self.Conv_ = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=1, padding=0),   ### fix it by tunning [1,3,7]
-            #nn.Conv2d(in_channels, out_channels, kernel_size=3, padding='same'),   ### for k=3 pandding is 1
-            #nn.Conv2d(in_channels, out_channels, kernel_size=7, padding=3),
             nn.Dropout(p=0.02)
-            #nn.BatchNorm2d(mid_channels),
-            #nn.ReLU(inplace=True)
             )
 
     def forward(self, x):
@@ -155,28 +150,24 @@ class convNext(nn.Module):
                                             )
         self.base_model = convNext
 
-        #self.sigm = nn.Sigmoid()
 
     def forward(self, x):
-        #print(x.shape)
-
         x = self.base_model(x)
-        #print(x.shape)
         return x
 
 
              ### Outer subtraction ###
              
 
-def append_0_s(x1,x3): 
+def append_0_s(x1,x2): 
     b = torch.tensor([[0]]).to(device=DEVICE,dtype=torch.float32)
     x1 = torch.cat((b.expand((x1.shape[0],1)),x1),dim=1)
     #print('this is x1 and this is the shape of x1',x1.shape)
     
-    x3 = torch.cat((b.expand((x3.shape[0],1)),x3),dim=1)
-    #print('this is x1 and this is the shape of x1',x3.shape)
+    x2 = torch.cat((b.expand((x2.shape[0],1)),x2),dim=1)
+    #print('this is x1 and this is the shape of x1',x2.shape)
 
-    x_p = x3.view(x3.shape[0], x3.shape[1], 1) - x1.view(x1.shape[0], 1, x1.shape[1])
+    x_p = x2.view(x2.shape[0], x2.shape[1], 1) - x1.view(x1.shape[0], 1, x1.shape[1])
     x_p = torch.sigmoid(x_p)
     #print('the shape of xp after outer add bfr flatten',x_p.shape)
     #x_p = x_p.flatten(start_dim=1)
@@ -184,15 +175,15 @@ def append_0_s(x1,x3):
 
                 ### Outer addition ###
 
-def append_0(x1,x3): 
+def append_0(x1,x2): 
     b = torch.tensor([[0]]).to(device=DEVICE,dtype=torch.float32)
     x1 = torch.cat((b.expand((x1.shape[0],1)),x1),dim=1)
     #print('this is x1 in add and this is the shape of x1',x1.shape)
     
-    x3 = torch.cat((b.expand((x3.shape[0],1)),x3),dim=1)
-    #print('this is x1 and this is the shape of x1',x3.shape)
+    x2 = torch.cat((b.expand((x2.shape[0],1)),x2),dim=1)
+    #print('this is x1 and this is the shape of x1',x2.shape)
 
-    x_p = x3.view(x3.shape[0], x3.shape[1], 1)+ x1.view(x1.shape[0], 1, x1.shape[1])
+    x_p = x2.view(x2.shape[0], x2.shape[1], 1)+ x1.view(x1.shape[0], 1, x1.shape[1])
     x_p = torch.sigmoid(x_p)
     #print('the shape of xp after outer add bfr flatten',x_p.shape)
     #x_p = x_p.flatten(start_dim=1)
@@ -201,15 +192,15 @@ def append_0(x1,x3):
 
                 ### Outer product ###
 
-def append_1(x1,x3):
+def append_1(x1,x2):
     b = torch.tensor([[1]]).to(device=DEVICE,dtype=torch.float32)
     x1 = torch.cat((b.expand((x1.shape[0],1)),x1),dim=1)
     #print('this is x1 of OP and this is the shape of x1',x1.shape)
     
-    x3 = torch.cat((b.expand((x3.shape[0],1)),x3),dim=1)
-    #print('this is x1 and this is the shape of x1',x3.shape)
+    x2 = torch.cat((b.expand((x2.shape[0],1)),x2),dim=1)
+    #print('this is x1 and this is the shape of x1',x2.shape)
 
-    x_p = x3.view(x3.shape[0], x3.shape[1], 1)* x1.view(x1.shape[0], 1, x1.shape[1])
+    x_p = x2.view(x2.shape[0], x2.shape[1], 1)* x1.view(x1.shape[0], 1, x1.shape[1])
     x_p = torch.sigmoid(x_p)
     #print('the shape of xp after outer pro bfr flatten',x_p.shape)
     #x_p = x_p.flatten(start_dim=1)
@@ -217,17 +208,17 @@ def append_1(x1,x3):
 
                 ### Outer division ###
 
-def append_1_d(x1,x3):
+def append_1_d(x1,x2):
     b = torch.tensor([[1]]).to(device=DEVICE,dtype=torch.float32)
     x1 = torch.cat((b.expand((x1.shape[0],1)),x1),dim=1)
     #print('this is x1 of div and this is the shape of x1',x1.shape)
     
-    x3 = torch.cat((b.expand((x3.shape[0],1)),x3),dim=1)
+    x2 = torch.cat((b.expand((x2.shape[0],1)),x2),dim=1)
     
     x1_ = torch.full_like(x1, fill_value=float(1.2e-20))  #this to avoid division by zeor, in this case x1 is the denominator 
     x1 = torch.add(x1, x1_)
     
-    x_p = x3.view(x3.shape[0], x3.shape[1], 1)/ x1.view(x1.shape[0], 1, x1.shape[1])
+    x_p = x2.view(x2.shape[0], x2.shape[1], 1)/ x1.view(x1.shape[0], 1, x1.shape[1])
     x_p = torch.sigmoid(x_p)
     #print('the shape of xp after outer pro bfr flatten',x_p.shape)
     #x_p = x_p.flatten(start_dim=1)
@@ -242,40 +233,40 @@ class MOAB(nn.Module):
         super(MOAB, self).__init__()
         self.model_image =  model_image
         self.model_gens = model_gens       
-        self.fc = nn.Linear(1089, 512)
+        self.fc = nn.Linear(1089, 512) # the shape of the flttened x after using conv_stack is (33x33 = 1089)
         self.dropout = nn.Dropout(p=0.1)
         self.layer_out = nn.Linear(512, nb_classes)
         
         self.conv_stack= conv_(4,1)
     
-    def forward(self, x1,x3):
+    def forward(self, x1,x2):
         
         #The shape of the image (x1) in this case has already been flattened by the context pre-trained network. 
         x1 = self.model_image(x1)
         
-        x3 = self.model_gens(x3)
+        x2 = self.model_gens(x2)
 
         # This is done to flatten the feature map from the MLP layer.
-        x3 = x3.view(x3.size(0), -1)
+        x2 = x2.view(x2.size(0), -1)
 
         # The objective of adding an extra dim to each branch (for example, torch.unsqueeze(x_sub, 1)) is to assist us in combining along the channel dim, so the shape of x_sub would be (bs, channel,33,33) 
                
         ## outer addition branch (appending 0)
-        x_add = append_0(x1,x3)
+        x_add = append_0(x1,x2)
         x_add = torch.unsqueeze(x_add, 1)
         ## outer subtraction branch (appending 0)
-        x_sub = append_0_s(x1,x3)
+        x_sub = append_0_s(x1,x2)
         x_sub = torch.unsqueeze(x_sub, 1)
         #print('out add shape', x_add.shape)
         #print('batch size add shape', x_add.shape[0])
 
         ## outer product branch (appending 1)
-        x_pro =append_1(x1,x3)
+        x_pro =append_1(x1,x2)
         x_pro = torch.unsqueeze(x_pro, 1)
         
         
         ## outer divison branch (appending 1)
-        x_div =append_1_d(x1,x3)
+        x_div =append_1_d(x1,x2)
         x_div = torch.unsqueeze(x_div, 1)
         
         ## combine 4 branches on the channel dim
@@ -296,11 +287,9 @@ class MOAB(nn.Module):
 
         return x
     
-
-
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+#%%
 img = convNext()
 mlp = MLP_Genes()
 model = MOAB(img,mlp)  
-model.to(device=DEVICE,dtype=torch.float)
+model = model.to(device=DEVICE,dtype=torch.float)
 print(summary(model,[(8,3, 224, 224),(8,80)]))

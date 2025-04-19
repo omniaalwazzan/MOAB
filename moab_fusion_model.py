@@ -4,6 +4,7 @@ import torch.nn as nn
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 import torch.nn.functional as F
 from torch.utils.model_zoo import load_url as load_state_dict_from_url
+from fvcore.nn import FlopCountAnalysis
 from torchinfo import summary 
 
 
@@ -293,3 +294,22 @@ mlp = MLP_Genes()
 model = MOAB(img,mlp)  
 model = model.to(device=DEVICE,dtype=torch.float)
 print(summary(model,[(8,3, 224, 224),(8,80)]))
+#%%
+
+
+# Count total parameters
+total_params = sum(p.numel() for p in model.parameters())
+
+# Count only trainable parameters
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+print(f"Total Parameters: {total_params}")
+print(f"MOAB Trainable Parameters: {trainable_params}")
+#%%
+# Count FLOPs
+img_input =  torch.randn(1,3, 224, 224)
+omic_input  = torch.randn(1,80)
+flops = FlopCountAnalysis(model, (img_input,omic_input))
+print(f"\nTotal FLOPs: {flops.total():,}")
+print(f"Total GFLOPs: {flops.total() / 1e9:.6f}")
+
